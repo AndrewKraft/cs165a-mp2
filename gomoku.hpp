@@ -1,12 +1,11 @@
 #ifndef GOMOKU_HPP
 #define GOMOKU_HPP
 #include <iostream>
+#include <set>
 
 class gomoku {
 public:
-	typedef unsigned char uchar;
-
-	gomoku(bool l, int n);
+	gomoku(bool l, int n, int m);
 	~gomoku();
 
 	void printBoard();
@@ -14,24 +13,31 @@ public:
 	void userMove();
 	void oppMove();
 
-	uchar getGameState();
+	char getGameState();
 	
 private:
-	uchar noWin, * board;
-	int n, *usrwin, *oppwin;
+	char noWin, *board;
 	bool l;
+	int n, minimax_depth, playerEval, compEval;
+	std::set<std::pair<int, int>> successorMoves;
 
-	void checkGG(std::pair<int, int> lastMove, bool isUsrMove);
+	char checkGG();
 
 	std::pair<int, int> getUserInput();
-	void addToBoard(std::pair<int, int> move);
+	void addToBoard(std::pair<int, int> move, bool user);
 
 	bool isMove(std::string move);
 	bool isValidMove(std::string move);
 
-	int eval(std::pair<int, int> move);
-	std::pair<int, int> best();
+	int minimax(bool computerPlaysNext, int depth, int alpha, int beta, std::set<std::pair<int, int>> successors);
+	int minimax(bool computerPlaysNext, int depth);
 
+
+
+	int eval(bool computerPlaysNext);
+	std::pair<int, int> bestMove();
+
+	int score(bool playsNext, int consecAmt, int openEnds);
 };
 
 #endif

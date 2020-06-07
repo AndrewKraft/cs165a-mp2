@@ -1,9 +1,9 @@
 CXX = g++
-CXXFLAGS = -Wall -g
+CXXFLAGS = -Wall -O3
 
 All: gobang
 
-gobang: main.o gomoku.o
+gobang: main.o gomoku.o gomoku.hpp
 	$(CXX) $(CXXFLAGS) $^ -o $@
 
 clean:
